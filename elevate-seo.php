@@ -23,6 +23,9 @@ require_once ELEVATE_SEO_PATH . 'includes/admin-assets.php';
 require_once ELEVATE_SEO_PATH . 'includes/admin-cpt-settings.php';
 require_once ELEVATE_SEO_PATH . 'includes/Admin/Fields.php';
 require_once ELEVATE_SEO_PATH . 'includes/admin-meta-boxes.php';
+require_once ELEVATE_SEO_PATH . 'includes/admin-robots.php';
+require_once ELEVATE_SEO_PATH . 'includes/frontend-robots.php';
+
 
 
 

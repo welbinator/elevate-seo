@@ -90,6 +90,42 @@ function register_settings() {
         'elevate_seo_main_section',
         ['name' => 'twitter_card_type']
     );
+
+        // Redirects Section
+    add_settings_section(
+        'elevate_seo_redirects_section',
+        __( 'Redirects', 'elevate-seo' ),
+        '__return_null',
+        'elevate-seo'
+    );
+
+    add_settings_field(
+        'redirect_slug_changes',
+        __( 'Automatically Redirect Slug Changes', 'elevate-seo' ),
+        __NAMESPACE__ . '\\render_checkbox_field',
+        'elevate-seo',
+        'elevate_seo_redirects_section',
+        ['name' => 'redirect_slug_changes']
+    );
+
+    add_settings_field(
+        'redirect_404',
+        __( 'Automatically Redirect 404s', 'elevate-seo' ),
+        __NAMESPACE__ . '\\render_checkbox_field',
+        'elevate-seo',
+        'elevate_seo_redirects_section',
+        ['name' => 'redirect_404']
+    );
+
+    add_settings_field(
+        'redirect_404_target',
+        __( 'Redirect 404s To URL', 'elevate-seo' ),
+        __NAMESPACE__ . '\\render_text_field',
+        'elevate-seo',
+        'elevate_seo_redirects_section',
+        ['name' => 'redirect_404_target']
+    );
+
 }
 add_action( 'admin_init', __NAMESPACE__ . '\\register_settings' );
 
@@ -107,6 +143,11 @@ function sanitize_options( $input ) {
     $output['twitter_card_type'] = in_array( $input['twitter_card_type'] ?? '', [ 'summary', 'summary_large_image' ], true )
         ? $input['twitter_card_type']
         : 'summary_large_image';
+
+    $output['redirect_slug_changes'] = ! empty( $input['redirect_slug_changes'] ) ? 1 : 0;
+    $output['redirect_404']          = ! empty( $input['redirect_404'] ) ? 1 : 0;
+    $output['redirect_404_target']   = esc_url_raw( $input['redirect_404_target'] ?? '' );
+
 
     return $output;
 }
@@ -172,6 +213,21 @@ function render_title_format_field() {
     </script>
     <?php
 }
+
+function render_checkbox_field( $args ) {
+    $options = get_option( 'elevate_seo_options' );
+    $name    = $args['name'];
+    $value   = ! empty( $options[ $name ] ) ? 1 : 0;
+    echo "<label><input type='checkbox' name='elevate_seo_options[$name]' value='1'" . checked( 1, $value, false ) . "> " . esc_html__( 'Enable', 'elevate-seo' ) . "</label>";
+}
+
+function render_text_field( $args ) {
+    $options = get_option( 'elevate_seo_options' );
+    $name    = $args['name'];
+    $value   = esc_url( $options[ $name ] ?? '' );
+    echo "<input type='text' name='elevate_seo_options[$name]' value='" . esc_attr( $value ) . "' class='regular-text'>";
+}
+
 
 function parse_title_format( $format, $post_id ) {
     $title    = get_the_title( $post_id );

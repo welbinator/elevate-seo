@@ -70,17 +70,25 @@ function output_meta_tags() {
 function override_title( $title_parts ) {
 	if ( is_admin() ) return $title_parts;
 
-	$post_id       = get_the_ID();
-	$post_type     = get_post_type( $post_id );
+	$post_id   = get_the_ID();
+	$post_type = get_post_type( $post_id );
 
+	// Get post-level override
+	$post_title_format = get_post_meta( $post_id, '_elevate_seo_title_format', true );
+
+	// Get plugin options
 	$global_options  = get_option( 'elevate_seo_options', [] );
 	$cpt_all_options = get_option( 'elevate_seo_cpt_options', [] );
 	$cpt_options     = $cpt_all_options[ $post_type ] ?? [];
 
-	$title_format = $cpt_options['title_format'] ?? $global_options['default_title_format'] ?? '%title% | %sitename%';
-	$final        = parse_title_format( $title_format, $post_id );
+	// Choose format in order: post -> CPT -> global -> fallback
+	$title_format = $post_title_format
+		?: ( $cpt_options['title_format'] ?? $global_options['default_title_format'] ?? '%title% | %sitename%' );
+
+	$final = parse_title_format( $title_format, $post_id );
 
 	return [ 'title' => $final ];
 }
+
 
 add_action( 'wp_head', __NAMESPACE__ . '\\output_meta_tags', 1 );

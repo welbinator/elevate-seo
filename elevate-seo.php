@@ -22,6 +22,8 @@ require_once ELEVATE_SEO_PATH . 'includes/meta-output.php';
 require_once ELEVATE_SEO_PATH . 'includes/admin-assets.php';
 require_once ELEVATE_SEO_PATH . 'includes/admin-cpt-settings.php';
 require_once ELEVATE_SEO_PATH . 'includes/Admin/Fields.php';
+require_once ELEVATE_SEO_PATH . 'includes/admin-meta-boxes.php';
+
 
 
 // Hook to load plugin text domain for translations

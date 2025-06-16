@@ -26,10 +26,27 @@ function output_meta_tags() {
 	$title_format     = $cpt_options['title_format']         ?? $global_options['default_title_format']     ?? '%title% | %sitename%';
 	$meta_description = get_post_meta( $post_id, '_elevate_seo_meta_description', true )
 	                 ?: $cpt_options['meta_description']     ?? $global_options['default_meta_description'] ?? '';
-	$og_image         = get_post_meta( $post_id, '_elevate_seo_og_image', true )
-	                 ?: $cpt_options['og_image']             ?? $global_options['default_og_image']         ?? '';
-	$twitter_image    = get_post_meta( $post_id, '_elevate_seo_twitter_image', true )
-	                 ?: $cpt_options['twitter_image']        ?? $global_options['default_twitter_image']    ?? $og_image;
+	// Get post meta values
+    $og_image_meta      = get_post_meta( $post_id, '_elevate_seo_og_image', true );
+    $twitter_image_meta = get_post_meta( $post_id, '_elevate_seo_twitter_image', true );
+
+    // Get featured image
+    $featured_image_url = get_the_post_thumbnail_url( $post_id, 'full' );
+
+    // Determine OG image
+    $og_image = $og_image_meta
+            ?: $featured_image_url
+            ?: $cpt_options['og_image']
+            ?? $global_options['default_og_image']
+            ?? '';
+
+    // Determine Twitter image (falls back to OG image if nothing else)
+    $twitter_image = $twitter_image_meta
+                ?: $featured_image_url
+                ?: $cpt_options['twitter_image']
+                ?? $global_options['default_twitter_image']
+                ?? $og_image;
+
 	$twitter_card     = $global_options['twitter_card_type'] ?? 'summary_large_image'; // Not overridden per CPT
 
 	$title = parse_title_format( $title_format, $post_id );

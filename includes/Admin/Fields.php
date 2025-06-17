@@ -33,7 +33,7 @@ class Fields {
                          
 				</div>
 			<?php else : ?>
-				<div class="w-full max-w-md h-32 border-2 border-dashed border-gray-300 rounded-md flex items-center justify-center cursor-pointer hover:border-gray-400 transition-colors"
+				<div class="w-full max-w-md aspect-[16/9] border-2 border-dashed border-gray-300 rounded-md flex items-center justify-center cursor-pointer hover:border-gray-400 transition-colors"
 				     onclick="elevateSeoUploadImage('<?php echo esc_js( $id ); ?>')">
 					<div class="text-center">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
@@ -44,6 +44,7 @@ class Fields {
 							<line x1="12" x2="12" y1="3" y2="15"></line>
 						</svg>
 						<p class="text-sm text-gray-500">Click to upload image</p>
+						<p class="text-sm text-gray-500">Recommended image size is 1200px x 675px</p>
 					</div>
 				</div>
 			<?php endif; ?>

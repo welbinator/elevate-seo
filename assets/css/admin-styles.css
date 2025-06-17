@@ -433,7 +433,7 @@
 .admin-settings-form {
   max-width: 800px;
   width: 100%;
-  textarea, input, select {
+  textarea, input:not([type="submit"]), select {
     width: 500px;
     max-width: 100%;
   }

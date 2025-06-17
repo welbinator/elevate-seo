@@ -278,16 +278,75 @@ function parse_title_format( $format, $post_id ) {
  * Renders the settings page.
  */
 function render_settings_page() {
+    $options = get_option('elevate_seo_options');
     ?>
     <div class="wrap">
-        <h1><?php esc_html_e( 'Elevate SEO Settings', 'elevate-seo' ); ?></h1>
-        <form action="options.php" method="post">
-            <?php
-            settings_fields( 'elevate_seo_settings' );
-            do_settings_sections( 'elevate-seo' );
-            submit_button();
-            ?>
+        <h1><?php esc_html_e('Elevate SEO Settings', 'elevate-seo'); ?></h1>
+        <form class="admin-settings-form" action="options.php" method="post">
+            <?php settings_fields('elevate_seo_settings'); ?>
+
+            <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+                <div class="flex flex-col space-y-1.5 p-6">
+                    <h3 class="text-2xl font-semibold leading-none tracking-tight">Global SEO Defaults</h3>
+                    <p class="text-sm text-muted-foreground">Set default values that will be used across your site when specific values aren't provided.</p>
+                </div>
+
+                <div class="p-6 pt-0 space-y-6">
+                    <!-- Default Meta Description -->
+                    <div class="space-y-2">
+                        <label for="meta-description" class="text-sm font-medium leading-none">Default Meta Description</label>
+                        <textarea
+                            name="elevate_seo_options[default_meta_description]"
+                            id="meta-description"
+                            class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm min-h-[100px]"
+                            placeholder="Enter your default meta description..."><?php echo esc_textarea($options['default_meta_description'] ?? ''); ?></textarea>
+                        <p class="text-sm text-muted-foreground">Recommended length: 150–160 characters</p>
+                    </div>
+
+                    <!-- Default Title Format -->
+                    <div class="space-y-2">
+                        <label for="title-format" class="text-sm font-medium leading-none">Default Meta Title Format</label>
+                        <input
+                            type="text"
+                            name="elevate_seo_options[default_title_format]"
+                            id="title-format"
+                            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            value="<?php echo esc_attr($options['default_title_format'] ?? '%title% | %sitename%'); ?>"
+                            placeholder="e.g., %title% | Your Site Name" />
+                        <p class="text-sm text-muted-foreground">Use %title% as a placeholder for the page title</p>
+                    </div>
+
+                    <!-- Twitter Card Type -->
+                    <div class="space-y-2">
+                        <label for="twitter-card" class="text-sm font-medium leading-none">Twitter Card Type</label>
+                        <select name="elevate_seo_options[twitter_card_type]" id="twitter-card"
+                            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+                            <option value="summary" <?php selected($options['twitter_card_type'] ?? '', 'summary'); ?>>summary</option>
+                            <option value="summary_large_image" <?php selected($options['twitter_card_type'] ?? '', 'summary_large_image'); ?>>summary_large_image</option>
+                        </select>
+                    </div>
+
+                    <!-- OG Image -->
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium leading-none">Default OG Image</label>
+                        <?php Fields::render_media_upload('elevate_seo_options[default_og_image]', esc_url($options['default_og_image'] ?? ''), 'default_og_image'); ?>
+                        <p class="text-sm text-muted-foreground">Recommended size: 1200x630 pixels</p>
+                    </div>
+
+                    <!-- Twitter Image -->
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium leading-none">Default Twitter Image</label>
+                        <?php Fields::render_media_upload('elevate_seo_options[default_twitter_image]', esc_url($options['default_twitter_image'] ?? ''), 'default_twitter_image'); ?>
+                        <p class="text-sm text-muted-foreground">Recommended size: 1200x600 pixels</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6">
+                <?php submit_button(); ?>
+            </div>
         </form>
     </div>
     <?php
 }
+

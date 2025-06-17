@@ -1,0 +1,25 @@
+@import "tailwindcss";
+.bg-destructive {
+    background-color: #ef4444;
+    color: white;
+}
+.wp-core-ui select {
+    max-width: unset;
+}
+.admin-settings-form {
+    max-width: 800px;
+    width: 100%;
+
+    textarea, input, select {
+        width: 500px;
+        max-width: 100%;
+    }
+}
+.image-wrapper {
+    padding-block: 20px;
+}
+
+.image-wrapper-inner {
+    width: 100%!important;
+    max-width: 500px!important;
+}

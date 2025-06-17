@@ -328,16 +328,16 @@ function render_settings_page() {
 
                     <!-- OG Image -->
                     <div class="space-y-2">
-                        <label class="text-sm font-medium leading-none">Default OG Image</label>
+                        
                         <?php Fields::render_media_upload('elevate_seo_options[default_og_image]', esc_url($options['default_og_image'] ?? ''), 'default_og_image'); ?>
-                        <p class="text-sm text-muted-foreground">Recommended size: 1200x630 pixels</p>
+                        
                     </div>
 
                     <!-- Twitter Image -->
                     <div class="space-y-2">
-                        <label class="text-sm font-medium leading-none">Default Twitter Image</label>
+                        
                         <?php Fields::render_media_upload('elevate_seo_options[default_twitter_image]', esc_url($options['default_twitter_image'] ?? ''), 'default_twitter_image'); ?>
-                        <p class="text-sm text-muted-foreground">Recommended size: 1200x600 pixels</p>
+                        
                     </div>
                 </div>
             </div>

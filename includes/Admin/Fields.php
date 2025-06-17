@@ -19,6 +19,10 @@ class Fields {
 
 	$label = $label_texts[$type] ?? '';
 	$tooltip_text = $labels[$type] ?? '';
+	$label_texts = [
+		'meta_description' => 'Meta Description',
+		'robots_txt'       => 'robots.txt Content',
+	];
 
 	?>
 	<div class="space-y-2">
@@ -130,6 +134,57 @@ class Fields {
 	</script>
 	<?php
 }
+
+public static function render_input( $name, $value = '', $type = '' ) {
+		$id = 'input_' . md5( $name );
+		$tooltip_id = 'tooltip_' . md5( $name );
+
+		$label_texts = [
+			'meta_title_format' => 'Meta Title Format',
+		];
+
+		$tooltips = [
+			'meta_title_format' => 'Use tags like %title%, %sitename%, %category%, or %taxonomy_slug%.',
+		];
+
+		$label = $label_texts[ $type ] ?? '';
+		$tooltip = $tooltips[ $type ] ?? '';
+
+		echo '<div class="space-y-2">';
+
+		if ( $label ) {
+			echo '<label for="' . esc_attr( $id ) . '" class="text-sm font-medium leading-none">' . esc_html( $label ) . '</label>';
+		}
+
+		if ( $tooltip ) {
+			echo '<a href="#" class="elevate-seo-tooltip-link text-xs text-gray-500 ml-2" data-tooltip-target="' . esc_attr( $tooltip_id ) . '">?</a>';
+			echo '<div id="' . esc_attr( $tooltip_id ) . '" class="elevate-seo-tooltip bg-white text-sm text-gray-800 rounded shadow-md border border-gray-200 p-4 mt-2 max-w-md" style="display:none;">';
+			echo '<p>' . esc_html( $tooltip ) . '</p>';
+			echo '</div>';
+		}
+
+		echo '<input type="text" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $value ) . '" class="w-full border rounded px-3 py-2" />';
+		echo '</div>';
+	}
+
+	public static function render_textarea( $name, $value = '', $type = '' ) {
+		$id = 'textarea_' . md5( $name );
+
+		$label_texts = [
+			'meta_description' => 'Meta Description',
+		];
+
+		$label = $label_texts[ $type ] ?? '';
+
+		echo '<div class="space-y-2">';
+
+		if ( $label ) {
+			echo '<label for="' . esc_attr( $id ) . '" class="text-sm font-medium leading-none">' . esc_html( $label ) . '</label>';
+		}
+
+		echo '<textarea id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" rows="3" class="w-full border rounded px-3 py-2 robots-textarea">' . esc_textarea( $value ) . '</textarea>';
+		echo '</div>';
+	}
 
 
 }

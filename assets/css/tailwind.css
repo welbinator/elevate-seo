@@ -39,3 +39,6 @@ a.elevate-seo-tooltip-link {
     justify-content: center;
     align-items: center;
 }
+.robots-textarea {
+    min-height: 400px;
+}

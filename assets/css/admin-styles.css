@@ -445,6 +445,9 @@
   width: 100% !important;
   max-width: 500px !important;
 }
+.border-grey {
+  border-color: #e4e4e7;
+}
 @property --tw-space-y-reverse {
   syntax: "*";
   inherits: false;

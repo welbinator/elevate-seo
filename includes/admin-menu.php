@@ -285,7 +285,7 @@ function render_settings_page() {
         <form class="admin-settings-form" action="options.php" method="post">
             <?php settings_fields('elevate_seo_settings'); ?>
 
-            <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+            <div class="rounded-lg border bg-card text-card-foreground shadow-sm border-grey">
                 <div class="flex flex-col space-y-1.5 p-6">
                     <h3 class="text-2xl font-semibold leading-none tracking-tight">Global SEO Defaults</h3>
                     <p class="text-sm text-muted-foreground">Set default values that will be used across your site when specific values aren't provided.</p>

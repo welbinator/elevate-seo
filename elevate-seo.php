@@ -27,9 +27,7 @@ require_once ELEVATE_SEO_PATH . 'includes/admin-robots.php';
 require_once ELEVATE_SEO_PATH . 'includes/frontend-robots.php';
 require_once ELEVATE_SEO_PATH . 'includes/404-redirects.php';
 require_once ELEVATE_SEO_PATH . 'includes/slug-redirects.php';
-
-
-
+require_once ELEVATE_SEO_PATH . 'includes/admin-enqueue.php';
 
 
 // Hook to load plugin text domain for translations
@@ -37,3 +35,5 @@ function elevate_seo_load_textdomain() {
     load_plugin_textdomain( 'elevate-seo', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 }
 add_action( 'plugins_loaded', 'elevate_seo_load_textdomain' );
+
+

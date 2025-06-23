@@ -36,6 +36,7 @@ jQuery(document).ready(function ($) {
 jQuery(document).ready(function ($) {
     $('.elevate-seo-tooltip-link').on('click', function (e) {
         e.preventDefault();
+        console.log("click");
 
         const targetId = $(this).data('tooltip-target');
         const tooltip = $('#' + targetId);

@@ -1,0 +1,53 @@
+@import "tailwindcss";
+.bg-destructive {
+    background-color: #ef4444;
+    color: white;
+}
+.wp-core-ui select {
+    max-width: unset;
+}
+.admin-settings-form {
+    max-width: 800px;
+    width: 100%;
+
+textarea,
+input:not([type="submit"]),
+select {
+    width: 500px;
+    max-width: 100%;
+    margin-top: 20px;
+}
+}
+.admin-cpt-settings-form {
+
+    label {
+   
+   /* display: inline-block; */
+   margin-top: 20px;
+}
+}
+.image-wrapper {
+    padding-block: 20px;
+}
+
+.image-wrapper-inner {
+    width: 100%!important;
+    max-width: 500px!important;
+}
+.border-grey {
+    border-color: #e4e4e7;
+}
+a.elevate-seo-tooltip-link {
+    background-color: #000000;
+    border-radius: 50%;
+    width: 15px;
+    color: white;
+    height: 15px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+.robots-textarea {
+    min-height: 400px;
+}

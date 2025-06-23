@@ -1,20 +1,10 @@
 <?php
-namespace Elevate_SEO\Admin;
+namespace Elevate_SEO\Admin\Robots;
 
 use Elevate_SEO\Admin\Fields;
 
 defined( 'ABSPATH' ) || exit;
 
-add_action( 'admin_menu', function () {
-	add_submenu_page(
-		'elevate-seo',
-		'robots.txt',
-		'robots.txt',
-		'manage_options',
-		'elevate-seo-robots',
-		__NAMESPACE__ . '\\render_robots_settings_page'
-	);
-} );
 
 add_action( 'admin_init', function () {
 	register_setting( 'elevate_seo_robots_group', 'elevate_seo_robots_txt' );

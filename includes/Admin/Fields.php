@@ -1,8 +1,52 @@
 <?php
-
 namespace Elevate_SEO\Admin;
 
 class Fields {
+
+	public static function render_input( $name, $value = '', $type = '' ) {
+		$id         = 'input_' . md5( $name );
+		$tooltip_id = 'tooltip_' . md5( $name );
+
+		$label_texts = [
+			'meta_title_format'     => 'Meta Title Format',
+			'default_title_format'  => 'Meta Title Format',
+		];
+
+		$label = $label_texts[ $type ] ?? '';
+
+		echo '<div class="space-y-2">';
+		if ( $label ) {
+			echo '<label for="' . esc_attr( $id ) . '" class="text-sm font-medium leading-none">';
+			echo esc_html( $label );
+			if ( in_array( $type, [ 'meta_title_format', 'default_title_format' ], true ) ) {
+				echo ' <a href="#" class="elevate-seo-tooltip-link text-xs text-muted-foreground ml-2 underline" data-tooltip-target="' . esc_attr( $tooltip_id ) . '">?</a>';
+			}
+			echo '</label>';
+		}
+		if ( in_array( $type, [ 'meta_title_format', 'default_title_format' ], true ) ) {
+			self::render_title_format_tooltip_modal( $tooltip_id );
+		}
+		echo '<input type="text" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $value ) . '" class="w-full border rounded px-3 py-2" />';
+		echo '</div>';
+	}
+
+	public static function render_textarea( $name, $value = '', $type = '' ) {
+		$id = 'textarea_' . md5( $name );
+
+		$label_texts = [
+			'meta_description' => 'Meta Description',
+			'robots_txt'       => 'robots.txt Content',
+		];
+
+		$label = $label_texts[ $type ] ?? '';
+
+		echo '<div class="space-y-2">';
+		if ( $label ) {
+			echo '<label for="' . esc_attr( $id ) . '" class="text-sm font-medium leading-none">' . esc_html( $label ) . '</label>';
+		}
+		echo '<textarea id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" rows="3" class="w-full border rounded px-3 py-2 robots-textarea">' . esc_textarea( $value ) . '</textarea>';
+		echo '</div>';
+	}
 
 	public static function render_media_upload( $name, $value = '', $type = '' ) {
 		$id         = 'upload_' . md5( $name );
@@ -108,75 +152,21 @@ class Fields {
 		<?php
 	}
 
-	public static function render_input( $name, $value = '', $type = '' ) {
-    $id         = 'input_' . md5( $name );
-    $tooltip_id = 'tooltip_' . md5( $name );
-
-    $label_texts = [
-        'meta_title_format'     => 'Meta Title Format',
-        'default_title_format'  => 'Meta Title Format',
-    ];
-
-    $label = $label_texts[ $type ] ?? '';
-
-    echo '<div class="space-y-2">';
-
-    if ( $label ) {
-        echo '<label for="' . esc_attr( $id ) . '" class="text-sm font-medium leading-none">';
-        echo esc_html( $label );
-
-        // Tooltip link inside label
-        if ( $type === 'meta_title_format' || $type === 'default_title_format' ) {
-            echo ' <a href="#" class="elevate-seo-tooltip-link text-xs text-muted-foreground ml-2 underline" data-tooltip-target="' . esc_attr( $tooltip_id ) . '">?</a>';
-        }
-
-        echo '</label>';
-    }
-
-    // Title format tooltip modal (outside label but in same container)
-    if ( $type === 'meta_title_format' || $type === 'default_title_format' ) {
-        self::render_title_format_tooltip_modal( $tooltip_id );
-    }
-
-    echo '<input type="text" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $value ) . '" class="w-full border rounded px-3 py-2" />';
-    echo '</div>';
-}
-
-
-	public static function render_textarea( $name, $value = '', $type = '' ) {
-		$id = 'textarea_' . md5( $name );
-
-		$label_texts = [
-			'meta_description' => 'Meta Description',
-			'robots_txt'       => 'robots.txt Content',
-		];
-
-		$label = $label_texts[ $type ] ?? '';
-
-		echo '<div class="space-y-2">';
-		if ( $label ) {
-			echo '<label for="' . esc_attr( $id ) . '" class="text-sm font-medium leading-none">' . esc_html( $label ) . '</label>';
-		}
-		echo '<textarea id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" rows="3" class="w-full border rounded px-3 py-2 robots-textarea">' . esc_textarea( $value ) . '</textarea>';
-		echo '</div>';
-	}
-
 	public static function render_title_format_tooltip_modal( $tooltip_id = 'meta-title-help-modal' ) {
-	?>
-	<div id="<?php echo esc_attr( $tooltip_id ); ?>" style="display:none; background: #fff; padding: 1em; border: 1px solid #ccd0d4; max-width: 500px; margin-top: 10px;">
-		<h2><?php esc_html_e( 'Available Template Tags', 'elevate-seo' ); ?></h2>
-		<ul>
-			<li><code>%title%</code> – <?php esc_html_e( 'The post or page title.', 'elevate-seo' ); ?></li>
-			<li><code>%sitename%</code> – <?php esc_html_e( 'Your site’s name.', 'elevate-seo' ); ?></li>
-			<li><code>%tagline%</code> – <?php esc_html_e( 'Your site’s tagline.', 'elevate-seo' ); ?></li>
-			<li><code>%category%</code> – <?php esc_html_e( 'First category (for posts).', 'elevate-seo' ); ?></li>
-			<li><code>%date%</code> – <?php esc_html_e( 'The publish date.', 'elevate-seo' ); ?></li>
-			<li><code>%taxonomy_slug%</code> – <?php esc_html_e( 'First term from a given taxonomy.', 'elevate-seo' ); ?></li>
-		</ul>
-	</div>
-	<?php
-}
-
+		?>
+		<div id="<?php echo esc_attr( $tooltip_id ); ?>" style="display:none; background: #fff; padding: 1em; border: 1px solid #ccd0d4; max-width: 500px; margin-top: 10px;">
+			<h2><?php esc_html_e( 'Available Template Tags', 'elevate-seo' ); ?></h2>
+			<ul>
+				<li><code>%title%</code> – <?php esc_html_e( 'The post or page title.', 'elevate-seo' ); ?></li>
+				<li><code>%sitename%</code> – <?php esc_html_e( 'Your site’s name.', 'elevate-seo' ); ?></li>
+				<li><code>%tagline%</code> – <?php esc_html_e( 'Your site’s tagline.', 'elevate-seo' ); ?></li>
+				<li><code>%category%</code> – <?php esc_html_e( 'First category (for posts).', 'elevate-seo' ); ?></li>
+				<li><code>%date%</code> – <?php esc_html_e( 'The publish date.', 'elevate-seo' ); ?></li>
+				<li><code>%taxonomy_slug%</code> – <?php esc_html_e( 'First term from a given taxonomy.', 'elevate-seo' ); ?></li>
+			</ul>
+		</div>
+		<?php
+	}
 
 	public static function get_field_label( $key ) {
 		$labels = [
@@ -188,8 +178,8 @@ class Fields {
 			'redirect_slug_changes'    => 'Automatically Redirect Changed URLs',
 			'redirect_404'             => 'Redirect 404 Pages to a Custom URL',
 			'redirect_404_target'      => 'Custom 404 Redirect URL',
+			'enable_canonical_pages'   => 'Add Canonical Meta Tag to Pages',
 		];
-
 		return $labels[ $key ] ?? $key;
 	}
 
@@ -198,7 +188,6 @@ class Fields {
 			'global_seo' => 'Global SEO Settings',
 			'redirects'  => 'Redirect Settings',
 		];
-
 		return $sections[ $key ] ?? $key;
 	}
 }

@@ -28,6 +28,8 @@ require_once ELEVATE_SEO_PATH . 'includes/frontend-robots.php';
 require_once ELEVATE_SEO_PATH . 'includes/404-redirects.php';
 require_once ELEVATE_SEO_PATH . 'includes/slug-redirects.php';
 require_once ELEVATE_SEO_PATH . 'includes/admin-enqueue.php';
+require_once ELEVATE_SEO_PATH . 'includes/frontend-canonical.php';
+
 
 
 // Hook to load plugin text domain for translations

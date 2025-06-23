@@ -6,21 +6,6 @@ use Elevate_SEO\Admin\Fields;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Adds the CPTs submenu page.
- */
-function register_cpt_menu() {
-	add_submenu_page(
-		'elevate-seo',
-		__( 'CPT Settings', 'elevate-seo' ),
-		__( 'CPTs', 'elevate-seo' ),
-		'manage_options',
-		'elevate-seo-cpts',
-		__NAMESPACE__ . '\\render_cpt_settings_page'
-	);
-}
-add_action( 'admin_menu', __NAMESPACE__ . '\\register_cpt_menu' );
-
-/**
  * Registers CPT-specific settings.
  */
 function register_cpt_settings() {

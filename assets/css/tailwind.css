@@ -10,11 +10,20 @@
     max-width: 800px;
     width: 100%;
 
-    textarea,
+textarea,
 input:not([type="submit"]),
 select {
     width: 500px;
     max-width: 100%;
+    margin-top: 20px;
+}
+}
+.admin-cpt-settings-form {
+
+    label {
+   
+   /* display: inline-block; */
+   margin-top: 20px;
 }
 }
 .image-wrapper {
@@ -34,10 +43,10 @@ a.elevate-seo-tooltip-link {
     width: 15px;
     color: white;
     height: 15px;
-    display: inline-flex
-;
+    display: inline-flex;
     justify-content: center;
     align-items: center;
+    text-decoration: none;
 }
 .robots-textarea {
     min-height: 400px;

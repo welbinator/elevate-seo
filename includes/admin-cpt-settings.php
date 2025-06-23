@@ -65,7 +65,7 @@ function render_cpt_settings_page() {
 	<div class="wrap">
 		<h1 class="text-2xl font-semibold mb-6"><?php esc_html_e( 'CPT SEO Settings', 'elevate-seo' ); ?></h1>
 
-		<form method="post" action="options.php" class="space-y-12">
+		<form method="post" action="options.php" class="admin-cpt-settings-form space-y-12">
 			<?php settings_fields( 'elevate_seo_cpt_settings' ); ?>
 
 			<?php foreach ( $cpts as $cpt ) :
@@ -88,6 +88,10 @@ function render_cpt_settings_page() {
 
 			<?php submit_button(); ?>
 		</form>
+
+       
+
+
 	</div>
 	<?php
 }

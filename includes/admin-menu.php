@@ -42,14 +42,14 @@ function register_settings() {
 
     add_settings_section(
         'elevate_seo_main_section',
-        __( 'Global SEO Defaults', 'elevate-seo' ),
+        Fields::get_section_label('global_seo'),
         '__return_null',
         'elevate-seo'
     );
 
     add_settings_field(
         'default_meta_description',
-        __( 'Default Meta Description', 'elevate-seo' ),
+        Fields::get_field_label('default_meta_description'),
         __NAMESPACE__ . '\\render_textarea_field',
         'elevate-seo',
         'elevate_seo_main_section',
@@ -58,7 +58,7 @@ function register_settings() {
 
     add_settings_field(
         'default_og_image',
-        __( 'Default OG Image', 'elevate-seo' ),
+        Fields::get_field_label('default_og_image'),
         __NAMESPACE__ . '\\render_media_upload_field',
         'elevate-seo',
         'elevate_seo_main_section',
@@ -67,7 +67,7 @@ function register_settings() {
 
     add_settings_field(
         'default_twitter_image',
-        __( 'Default Twitter Image', 'elevate-seo' ),
+        Fields::get_field_label('default_twitter_image'),
         __NAMESPACE__ . '\\render_media_upload_field',
         'elevate-seo',
         'elevate_seo_main_section',
@@ -76,7 +76,7 @@ function register_settings() {
 
     add_settings_field(
         'default_title_format',
-        __( 'Default Meta Title Format', 'elevate-seo' ),
+        Fields::get_field_label('default_title_format'),
         __NAMESPACE__ . '\\render_title_format_field',
         'elevate-seo',
         'elevate_seo_main_section'
@@ -84,24 +84,23 @@ function register_settings() {
 
     add_settings_field(
         'twitter_card_type',
-        __( 'Twitter Card Type', 'elevate-seo' ),
+        Fields::get_field_label('twitter_card_type'),
         __NAMESPACE__ . '\\render_select_field',
         'elevate-seo',
         'elevate_seo_main_section',
         ['name' => 'twitter_card_type']
     );
 
-        // Redirects Section
     add_settings_section(
         'elevate_seo_redirects_section',
-        __( 'Redirects', 'elevate-seo' ),
+        Fields::get_section_label('redirects'),
         '__return_null',
         'elevate-seo'
     );
 
     add_settings_field(
         'redirect_slug_changes',
-        __( 'Automatically Redirect Slug Changes', 'elevate-seo' ),
+        Fields::get_field_label('redirect_slug_changes'),
         __NAMESPACE__ . '\\render_checkbox_field',
         'elevate-seo',
         'elevate_seo_redirects_section',
@@ -110,7 +109,7 @@ function register_settings() {
 
     add_settings_field(
         'redirect_404',
-        __( 'Automatically Redirect 404s', 'elevate-seo' ),
+        Fields::get_field_label('redirect_404'),
         __NAMESPACE__ . '\\render_checkbox_field',
         'elevate-seo',
         'elevate_seo_redirects_section',
@@ -119,13 +118,12 @@ function register_settings() {
 
     add_settings_field(
         'redirect_404_target',
-        __( 'Redirect 404s To URL', 'elevate-seo' ),
+        Fields::get_field_label('redirect_404_target'),
         __NAMESPACE__ . '\\render_text_field',
         'elevate-seo',
         'elevate_seo_redirects_section',
         ['name' => 'redirect_404_target']
     );
-
 }
 add_action( 'admin_init', __NAMESPACE__ . '\\register_settings' );
 
@@ -185,7 +183,7 @@ function render_title_format_field() {
     <input type="text" name="elevate_seo_options[default_title_format]" value="<?php echo $value; ?>" class="regular-text" />
     <p class="description">
         <?php esc_html_e( 'Use template tags like %title%, %sitename%, %category%.', 'elevate-seo' ); ?>
-        <a href="#" id="elevate-seo-title-help-link"><?php esc_html_e( 'What’s this?', 'elevate-seo' ); ?></a>
+        <a href="#" id="elevate-seo-title-help-link"><?php esc_html_e( '?', 'elevate-seo' ); ?></a>
     </p>
 
     <div id="elevate-seo-title-help-modal" style="display:none; background: #fff; padding: 1em; border: 1px solid #ccd0d4; max-width: 500px; margin-top: 10px;">
@@ -303,9 +301,12 @@ function render_settings_page() {
                         <p class="text-sm text-muted-foreground">Recommended length: 150–160 characters</p>
                     </div>
 
-                    <!-- Default Title Format -->
+                    <!-- Meta Title Format -->
                     <div class="space-y-2">
-                        <label for="title-format" class="text-sm font-medium leading-none">Default Meta Title Format</label>
+                        <label for="title-format" class="text-sm font-medium leading-none">
+                            Meta Title Format
+                            <a href="#" id="meta-title-help-link" class="text-xs text-muted-foreground ml-2 underline elevate-seo-tooltip-link">?</a>
+                        </label>
                         <input
                             type="text"
                             name="elevate_seo_options[default_title_format]"
@@ -313,8 +314,31 @@ function render_settings_page() {
                             class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                             value="<?php echo esc_attr($options['default_title_format'] ?? '%title% | %sitename%'); ?>"
                             placeholder="e.g., %title% | Your Site Name" />
-                        <p class="text-sm text-muted-foreground">Use %title% as a placeholder for the page title</p>
+                        <div id="meta-title-help-modal" style="display:none; background: #fff; padding: 1em; border: 1px solid #ccd0d4; max-width: 500px; margin-top: 10px;">
+                            <h2><?php esc_html_e( 'Available Template Tags', 'elevate-seo' ); ?></h2>
+                            <ul>
+                                <li><code>%title%</code> – <?php esc_html_e( 'The post or page title.', 'elevate-seo' ); ?></li>
+                                <li><code>%sitename%</code> – <?php esc_html_e( 'Your site’s name.', 'elevate-seo' ); ?></li>
+                                <li><code>%tagline%</code> – <?php esc_html_e( 'Your site’s tagline.', 'elevate-seo' ); ?></li>
+                                <li><code>%category%</code> – <?php esc_html_e( 'First category (for posts).', 'elevate-seo' ); ?></li>
+                                <li><code>%date%</code> – <?php esc_html_e( 'The publish date.', 'elevate-seo' ); ?></li>
+                                <li><code>%taxonomy_slug%</code> – <?php esc_html_e( 'First term from a given taxonomy.', 'elevate-seo' ); ?></li>
+                            </ul>
+                        </div>
                     </div>
+
+                    <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const helpLink = document.getElementById('meta-title-help-link');
+                        const modal = document.getElementById('meta-title-help-modal');
+                        if (helpLink && modal) {
+                            helpLink.addEventListener('click', function (e) {
+                                e.preventDefault();
+                                modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+                            });
+                        }
+                    });
+                    </script>
 
                     <!-- Twitter Card Type -->
                     <div class="space-y-2">
@@ -328,16 +352,12 @@ function render_settings_page() {
 
                     <!-- OG Image -->
                     <div class="space-y-2">
-                        
                         <?php Fields::render_media_upload('elevate_seo_options[default_og_image]', esc_url($options['default_og_image'] ?? ''), 'default_og_image'); ?>
-                        
                     </div>
 
                     <!-- Twitter Image -->
                     <div class="space-y-2">
-                        
                         <?php Fields::render_media_upload('elevate_seo_options[default_twitter_image]', esc_url($options['default_twitter_image'] ?? ''), 'default_twitter_image'); ?>
-                        
                     </div>
                 </div>
             </div>
@@ -349,4 +369,5 @@ function render_settings_page() {
     </div>
     <?php
 }
+
 
